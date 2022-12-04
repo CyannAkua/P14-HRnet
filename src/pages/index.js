@@ -9,15 +9,9 @@ import Modal from 'react-modal';
 import './modal.css'
 
 export default function Index() {
-  const [defined,setDefined] = useState(false)
   const dispatch = useDispatch()
   const [startDate, setStartDate] = useState(new Date());
   const [birthDate, setBirthDate] = useState(new Date());
-  const [firstName, setFirstName] = useState(undefined);
-  const [lastName, setLastName] = useState(undefined);
-  const [street, setStreet] = useState(undefined);
-  const [city, setCity] = useState(undefined);
-  const [zipcode, setZipcode] = useState(undefined);
   const customStyles = {
     content: {
       top: '50%',
@@ -32,28 +26,37 @@ export default function Index() {
   
   function UserModal() {
     const [modalIsOpen, setIsOpen] = useState();
+    const [defined,setDefined] = useState(false);
     function setSaveState(){
       let state = store.getState().state
       let department = store.getState().department
-      let sDate = startDate.toISOString().split('T')[0]
+      let firstName = store.getState().firstName
+      let lastName = store.getState().lastName
+      let street = store.getState().street
+      let city = store.getState().city
+      let zipcode = store.getState().zipcode
+      let sDate = startDate.toISOString().split('T')[0] 
       let bDate = birthDate.toISOString().split('T')[0]
       if((firstName && lastName && bDate && sDate && street && city && zipcode && state && department && department && state) !== undefined){ 
         setDefined(true);
-        setIsOpen(true);
-        dispatch({type:'setSaveState',payload:{firstName,lastName,dateOfBirth:bDate,startDate:sDate,street,city,zipCode:zipcode,state,department}}) 
+        openModal()
+        dispatch({type:'setSaveState',payload:{firstName,lastName,dateOfBirth:bDate,startDate:sDate,street,city,zipCode:zipcode,state,department}})   
         document.getElementById('create-employee').reset();
-        setFirstName(undefined)
-        setLastName(undefined)
-        setStreet(undefined)
-        setCity(undefined)
-        setZipcode(undefined)
+        dispatch({type:'setFirstName',payload:undefined})
+        dispatch({type:'setLastName',payload:undefined})
+        dispatch({type:'setStreet',payload:undefined})
+        dispatch({type:'setCity',payload:undefined})
+        dispatch({type:'setZipcode',payload:undefined})
       }
       else{
         setDefined(false);
-        setIsOpen(true);
-      }
+        openModal()
+      } 
+             
     }
-
+    function openModal(){
+      setIsOpen(true)
+    }
     function closeModal() {
       setIsOpen(false);
     }
@@ -68,7 +71,7 @@ export default function Index() {
           ariaHideApp={false}
         >
           <h2>{defined ? 'Employee Created!'  : 'You must fill all the fields' }</h2>
-          <svg className='closeIcon' onClick={closeModal} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/></svg> 
+          <svg className='closeIcon' onClick={()=>closeModal()} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/></svg> 
         </Modal>
       </div>
     );
@@ -84,10 +87,10 @@ export default function Index() {
         <h2>Create Employee</h2>
         <form id="create-employee">
           <label htmlFor="first-name">First Name</label>
-          <input type="text" id="first-name" onChange={(event) =>setFirstName(event.target.value)}/>
+          <input type="text" id="first-name" onChange={(event) =>dispatch({type:'setFirstName',payload:event.target.value})}/>
 
           <label htmlFor="last-name">Last Name</label>
-          <input type="text" id="last-name" onChange={(event) => setLastName(event.target.value)}/>
+          <input type="text" id="last-name" onChange={(event) => dispatch({type:'setLastName',payload:event.target.value})}/>
 
           <label htmlFor="date-of-birth">Date of Birth</label>
           <DatePicker selected={birthDate} onChange={(date) => setBirthDate(date)} />
@@ -99,15 +102,15 @@ export default function Index() {
             <legend>Address</legend>
 
             <label htmlFor="street">Street</label>
-            <input id="street" type="text" onChange={(event) => setStreet(event.target.value)} />
+            <input id="street" type="text" onChange={(event) => dispatch({type:'setStreet',payload:event.target.value})}/>
 
             <label htmlFor="city">City</label>
-            <input id="city" type="text" onChange={(event) => setCity(event.target.value)} />
+            <input id="city" type="text" onChange={(event) => dispatch({type:'setCity',payload:event.target.value})}/>
             <label htmlFor="state">State</label>
             <StateDropdown/>
 
             <label htmlFor="zip-code">Zip Code</label>
-            <input id="zip-code" type="number" onChange={(event) => setZipcode(event.target.value)} />
+            <input id="zip-code" type="number" onChange={(event) => dispatch({type:'setZipcode',payload:event.target.value})}/>
           </fieldset>
 
           <label htmlFor="department">Department</label>

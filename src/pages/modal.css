@@ -14,5 +14,8 @@
 .saveButton{
   padding: 10px 5px 10px 5px;
   width: auto;
+  height: auto;
   margin-top: 10px;
+  border: 1px black solid;
+  border-radius: 3px;
 }

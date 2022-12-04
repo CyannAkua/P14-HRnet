@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import Table from "../components/table"
+
 export default function EmployeeList(){
   let data = useSelector((state)=>state.userData)
   if(data.length == 0 || data == undefined){

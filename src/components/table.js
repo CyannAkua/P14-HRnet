@@ -103,8 +103,8 @@ export default function Table(props) {
           {pagedData.map((data, index) => {
             return (
               <tr key={index}>
-                {props.header.map((column) => {
-                  return <td key={data[column.key]}>{data[column.key]}</td>;
+                {props.header.map((column,colindex) => {
+                  return <td key={index + '_' + colindex}>{data[column.key]}</td>;
                 })}
               </tr>
             );
