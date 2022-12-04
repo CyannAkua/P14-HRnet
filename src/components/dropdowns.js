@@ -258,5 +258,3 @@ export function StateDropdown(){
     <Dropdown  options={states} onChange={(event)=>{setStateOption(event);dispatch({type:'setState', payload:event.value})}} value={stateOption} placeholder="Select a State"/>
   )
 }
-
-
