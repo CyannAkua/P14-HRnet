@@ -1,0 +1,18 @@
+.closeIcon{
+  display: block;
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  top: -7px;
+  right:-7px;
+  background-color: white;
+  border: 2px gray solid;
+  border-radius: 50%;
+
+}
+
+.saveButton{
+  padding: 10px 5px 10px 5px;
+  width: auto;
+  margin-top: 10px;
+}
