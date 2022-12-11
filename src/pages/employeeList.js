@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
-import Table from "../components/table"
+import Table from "cy-s_table_component"
 
 export default function EmployeeList(){
   let data = useSelector((state)=>state.userData)
